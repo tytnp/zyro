@@ -1,4 +1,4 @@
 fn main() {
-    println!("123");
+    zyro_api::main();
 }
 

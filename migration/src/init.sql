@@ -1,30 +1,12 @@
-use sea_orm_migration::prelude::*;
+drop table if exists sys_user;
+drop table if exists sys_role;
+drop table if exists sys_menu;
+drop table if exists sys_user_role;
+drop table if exists sys_role_menu;
+drop table if exists sys_api;
+drop table if exists sys_dictionary;
+drop table if exists sys_dictionary_detail;
 
-#[derive(DeriveMigrationName)]
-pub struct Migration;
-
-#[async_trait::async_trait]
-impl MigrationTrait for Migration {
-    async fn up(&self, manager: &SchemaManager) -> Result<(), DbErr> {
-        // Replace the sample below with your own migration scripts
-        // manager
-        //     .create_table(
-        //         Table::create()
-        //             .table(Posts::Table)
-        //             .if_not_exists()
-        //             .col(
-        //                 ColumnDef::new(Posts::Id)
-        //                     .integer()
-        //                     .not_null()
-        //                     .auto_increment()
-        //                     .primary_key(),
-        //             )
-        //             .col(ColumnDef::new(Posts::Title).string().not_null())
-        //             .col(ColumnDef::new(Posts::Text).string().not_null())
-        //             .to_owned(),
-        //     )
-        //     .await
-        manager.get_connection().execute_unprepared("
 create table sys_user
 (
     id              integer primary key autoincrement,
@@ -103,7 +85,7 @@ create table sys_dictionary
 (
     id         integer primary key autoincrement,
     name       text,
-    type       text,
+    alias      text,
     desc       text,
     status     boolean   default true,
     created_at timestamp default current_timestamp,
@@ -122,29 +104,3 @@ create table sys_dictionary_detail
     created_at    timestamp default current_timestamp,
     updated_at    timestamp default current_timestamp
 );
-        ").await?;
-        Ok(())
-    }
-
-    async fn down(&self, manager: &SchemaManager) -> Result<(), DbErr> {
-        manager.get_connection().execute_unprepared("
-drop table if exists sys_user;
-drop table if exists sys_role;
-drop table if exists sys_menu;
-drop table if exists sys_user_role;
-drop table if exists sys_role_menu;
-drop table if exists sys_api;
-drop table if exists sys_dictionary;
-drop table if exists sys_dictionary_detail;
-        ").await?;
-        Ok(())
-    }
-}
-
-// #[derive(DeriveIden)]
-// enum Posts {
-//     Table,
-//     Id,
-//     Title,
-//     Text,
-// }
