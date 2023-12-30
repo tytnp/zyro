@@ -24,10 +24,13 @@ impl MigrationTrait for Migration {
         //             .to_owned(),
         //     )
         //     .await
-        manager.get_connection().execute_unprepared("
+        manager
+            .get_connection()
+            .execute_unprepared(
+                "
 create table sys_user
 (
-    id              integer primary key autoincrement,
+    id              integer primary key autoincrement not null,
     username        text,
     password        text,
     nick_name       text      default '系统用户',
@@ -45,7 +48,7 @@ create table sys_user
 
 create table sys_role
 (
-    id            integer primary key autoincrement,
+    id            integer primary key autoincrement not null,
     name          text,
     default_route text,
     status        boolean   default true,
@@ -55,7 +58,7 @@ create table sys_role
 
 create table sys_menu
 (
-    id         integer primary key autoincrement,
+    id         integer primary key autoincrement not null,
     parent_id  integer,
     title      text,
     icon       text,
@@ -71,25 +74,25 @@ create table sys_menu
 
 create table sys_user_role
 (
-    user_id integer
-        constraint fk_sys_user_role_sys_user references sys_user(id),
-    role_id integer
-        constraint fk_sys_user_role_sys_role references sys_role(id),
+    user_id integer not null
+        constraint fk_sys_user_role_sys_user references sys_user (id),
+    role_id integer not null
+        constraint fk_sys_user_role_sys_role references sys_role (id),
     primary key (user_id, role_id)
 );
 
 create table sys_role_menu
 (
-    role_id integer
-        constraint fk_sys_role_menu_sys_role references sys_role(id),
-    menu_id integer
-        constraint fk_sys_role_menu_sys_base_menu references sys_menu(id),
+    role_id integer not null
+        constraint fk_sys_role_menu_sys_role references sys_role (id),
+    menu_id integer not null
+        constraint fk_sys_role_menu_sys_base_menu references sys_menu (id),
     primary key (role_id, menu_id)
 );
 
 create table sys_api
 (
-    id          integer primary key autoincrement,
+    id          integer primary key autoincrement not null,
     path        text,
     description text,
     api_group   text,
@@ -101,7 +104,7 @@ create table sys_api
 
 create table sys_dictionary
 (
-    id         integer primary key autoincrement,
+    id         integer primary key autoincrement not null,
     name       text,
     alias      text,
     desc       text,
@@ -112,9 +115,9 @@ create table sys_dictionary
 
 create table sys_dictionary_detail
 (
-    id            integer primary key autoincrement,
+    id            integer primary key autoincrement not null,
     dictionary_id integer
-        constraint fk_sys_dictionary_dictionary_details references sys_dictionary(id),
+        constraint fk_sys_dictionary_dictionary_details references sys_dictionary (id),
     label         text,
     value         integer,
     sort          integer,
@@ -122,12 +125,17 @@ create table sys_dictionary_detail
     created_at    timestamp default current_timestamp,
     updated_at    timestamp default current_timestamp
 );
-        ").await?;
+        ",
+            )
+            .await?;
         Ok(())
     }
 
     async fn down(&self, manager: &SchemaManager) -> Result<(), DbErr> {
-        manager.get_connection().execute_unprepared("
+        manager
+            .get_connection()
+            .execute_unprepared(
+                "
 drop table if exists sys_user;
 drop table if exists sys_role;
 drop table if exists sys_menu;
@@ -136,7 +144,9 @@ drop table if exists sys_role_menu;
 drop table if exists sys_api;
 drop table if exists sys_dictionary;
 drop table if exists sys_dictionary_detail;
-        ").await?;
+        ",
+            )
+            .await?;
         Ok(())
     }
 }
