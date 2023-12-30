@@ -6,7 +6,7 @@ use sea_orm::entity::prelude::*;
 #[sea_orm(table_name = "sys_api")]
 pub struct Model {
     #[sea_orm(primary_key)]
-    pub id: Option<i32>,
+    pub id: i32,
     pub path: Option<String>,
     pub description: Option<String>,
     pub api_group: Option<String>,

@@ -1,5 +1,5 @@
 [package]
-name = "zyro-api"
+name = "api"
 version = "0.1.0"
 edition = "2021"
 
@@ -11,3 +11,4 @@ tokio = { workspace = true }
 tracing-subscriber = { workspace = true }
 dotenv = { workspace = true }
 sea-orm = { workspace = true }
+entity = { path = "../entity" }

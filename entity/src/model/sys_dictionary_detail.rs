@@ -6,7 +6,7 @@ use sea_orm::entity::prelude::*;
 #[sea_orm(table_name = "sys_dictionary_detail")]
 pub struct Model {
     #[sea_orm(primary_key)]
-    pub id: Option<i32>,
+    pub id: i32,
     pub dictionary_id: Option<i32>,
     pub label: Option<String>,
     pub value: Option<i32>,

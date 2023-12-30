@@ -126,6 +126,18 @@ dependencies = [
 ]
 
 [[package]]
+name = "api"
+version = "0.1.0"
+dependencies = [
+ "axum",
+ "dotenv",
+ "entity",
+ "sea-orm",
+ "tokio",
+ "tracing-subscriber",
+]
+
+[[package]]
 name = "arrayvec"
 version = "0.7.4"
 source = "registry+https://github.com/rust-lang/crates.io-index"
@@ -784,7 +796,6 @@ name = "entity"
 version = "0.1.0"
 dependencies = [
  "sea-orm",
- "serde",
 ]
 
 [[package]]
@@ -3435,16 +3446,9 @@ checksum = "525b4ec142c6b68a2d10f01f7bbf6755599ca3f81ea53b8431b7dd348f5fdb2d"
 name = "zyro"
 version = "0.1.0"
 dependencies = [
- "zyro-api",
-]
-
-[[package]]
-name = "zyro-api"
-version = "0.1.0"
-dependencies = [
- "axum",
- "dotenv",
+ "api",
+ "entity",
+ "migration",
  "sea-orm",
  "tokio",
- "tracing-subscriber",
 ]

@@ -1,4 +1,5 @@
+mod tests;
 fn main() {
-    zyro_api::main();
+    api::main();
 }
 
