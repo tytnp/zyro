@@ -2,3 +2,9 @@
 
 pub use super::sys_api::Entity as SysApi;
 pub use super::sys_dictionary::Entity as SysDictionary;
+pub use super::sys_dictionary_detail::Entity as SysDictionaryDetail;
+pub use super::sys_menu::Entity as SysMenu;
+pub use super::sys_role::Entity as SysRole;
+pub use super::sys_role_menu::Entity as SysRoleMenu;
+pub use super::sys_user::Entity as SysUser;
+pub use super::sys_user_role::Entity as SysUserRole;

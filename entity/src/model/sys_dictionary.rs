@@ -8,7 +8,7 @@ pub struct Model {
     #[sea_orm(primary_key)]
     pub id: Option<i32>,
     pub name: Option<String>,
-    pub r#type: Option<String>,
+    pub alias: Option<String>,
     pub desc: Option<String>,
     pub status: Option<bool>,
     pub created_at: Option<DateTimeUtc>,
@@ -16,6 +16,15 @@ pub struct Model {
 }
 
 #[derive(Copy, Clone, Debug, EnumIter, DeriveRelation)]
-pub enum Relation {}
+pub enum Relation {
+    #[sea_orm(has_many = "super::sys_dictionary_detail::Entity")]
+    SysDictionaryDetail,
+}
+
+impl Related<super::sys_dictionary_detail::Entity> for Entity {
+    fn to() -> RelationDef {
+        Relation::SysDictionaryDetail.def()
+    }
+}
 
 impl ActiveModelBehavior for ActiveModel {}

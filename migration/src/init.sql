@@ -54,18 +54,18 @@ create table sys_menu
 create table sys_user_role
 (
     user_id integer
-        constraint fk_sys_user_role_sys_user references sys_user,
+        constraint fk_sys_user_role_sys_user references sys_user(id),
     role_id integer
-        constraint fk_sys_user_role_sys_role references sys_role,
+        constraint fk_sys_user_role_sys_role references sys_role(id),
     primary key (user_id, role_id)
 );
 
 create table sys_role_menu
 (
     role_id integer
-        constraint fk_sys_role_menu_sys_role references sys_role,
+        constraint fk_sys_role_menu_sys_role references sys_role(id),
     menu_id integer
-        constraint fk_sys_role_menu_sys_base_menu references sys_menu,
+        constraint fk_sys_role_menu_sys_base_menu references sys_menu(id),
     primary key (role_id, menu_id)
 );
 
@@ -96,7 +96,7 @@ create table sys_dictionary_detail
 (
     id            integer primary key autoincrement,
     dictionary_id integer
-        constraint fk_sys_dictionary_dictionary_details references sys_dictionary,
+        constraint fk_sys_dictionary_dictionary_details references sys_dictionary(id),
     label         text,
     value         integer,
     sort          integer,
