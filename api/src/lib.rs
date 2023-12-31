@@ -1,7 +1,8 @@
-use axum::response::Html;
-use axum::routing::get;
+mod system;
+
+use axum::handler::Handler;
 use axum::*;
-use sea_orm::{Database, DatabaseConnection};
+use sea_orm::{Database, DatabaseConnection, EntityTrait};
 use std::env;
 
 #[derive(Clone)]
@@ -10,7 +11,7 @@ struct AppState {
 }
 
 #[tokio::main]
-async fn start() {
+pub async fn start() {
     tracing_subscriber::fmt::init();
     dotenv::dotenv().ok();
     let db_url = env::var("DATABASE_URL").expect("DATABASE_URL is not set in .env file");
@@ -21,15 +22,8 @@ async fn start() {
         .await
         .expect("Database connection failed");
     let state = AppState { _conn: conn };
-    let app = Router::new().route("/", get(index)).with_state(state);
+    let app = system::register_api(Router::new()).with_state(state);
+
     let listener = tokio::net::TcpListener::bind(&server_url).await.unwrap();
     axum::serve(listener, app).await.unwrap();
-}
-
-pub fn main() {
-    start();
-}
-
-async fn index() -> Html<&'static str> {
-    Html("<h1>Hello, World!</h1>")
 }
