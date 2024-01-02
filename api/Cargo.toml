@@ -12,3 +12,4 @@ tracing-subscriber = { workspace = true }
 dotenv = { workspace = true }
 sea-orm = { workspace = true }
 entity = { path = "../entity" }
+macros = {path = "../macros"}

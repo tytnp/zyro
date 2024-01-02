@@ -4,8 +4,11 @@ version = "0.1.0"
 edition = "2021"
 
 # See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
+[lib]
+proc-macro = true
 
 [dependencies]
 proc-macro2 = { workspace = true }
-syn = { workspace = true }
+syn = { workspace = true ,features = ["extra-traits"]}
 quote = { workspace = true }
+darling = "0.20.3"
