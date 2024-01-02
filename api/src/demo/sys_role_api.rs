@@ -1,21 +1,66 @@
+use crate::AppState;
+use axum::extract::*;
 use axum::response::Html;
-#[allow(dead_code)]
-pub async fn add() -> Html<&'static str> {
-    Html("<h1>user_add</h1>")
+use chrono::Utc;
+use entity::model::prelude::*;
+use entity::model::*;
+use sea_orm::{ActiveModelTrait, ActiveValue, EntityTrait, IntoActiveModel, NotSet};
+pub async fn add(
+    State(state): State<AppState>,
+    Json(model): Json<sys_role::Model>,
+) -> Json<sys_role::Model> {
+    let mut active_model = model.into_active_model();
+    active_model.id = NotSet;
+    active_model.created_at = ActiveValue::Set(Option::from(Utc::now()));
+    Json(active_model.insert(&state.conn).await.unwrap())
 }
-#[allow(dead_code)]
-pub async fn del() -> Html<&'static str> {
-    Html("<h1>user_add</h1>")
+
+pub async fn del(
+    State(state): State<AppState>,
+    Json(model): Json<sys_role::Model>,
+) -> Json<sys_role::Model> {
+    if let Ok(Some(res)) = SysRole::find_by_id(model.id).one(&state.conn).await {
+        SysRole::delete_by_id(res.id)
+            .exec(&state.conn)
+            .await
+            .unwrap();
+        return Json(res);
+    }
+    return Json(model);
 }
-#[allow(dead_code)]
-pub async fn edit() -> Html<&'static str> {
-    Html("<h1>user_add</h1>")
+
+pub async fn edit(
+    State(state): State<AppState>,
+    Json(model): Json<sys_role::Model>,
+) -> Json<sys_role::Model> {
+    let mut active_model = SysRole::find_by_id(model.id)
+        .one(&state.conn)
+        .await
+        .unwrap()
+        .unwrap()
+        .into_active_model();
+    let created_at = active_model.created_at.clone();
+    active_model
+        .set_from_json(serde_json::to_value(&model).unwrap())
+        .unwrap();
+    active_model.created_at = created_at;
+    active_model.updated_at = ActiveValue::Set(Option::from(Utc::now()));
+    Json(active_model.update(&state.conn).await.unwrap())
 }
-#[allow(dead_code)]
+
 pub async fn list() -> Html<&'static str> {
     Html("<h1>user_add</h1>")
 }
-#[allow(dead_code)]
-pub async fn one() -> Html<&'static str> {
-    Html("<h1>user_add</h1>")
+
+pub async fn one(
+    State(state): State<AppState>,
+    Json(model): Json<sys_role::Model>,
+) -> Json<sys_role::Model> {
+    Json(
+        SysRole::find_by_id(model.id)
+            .one(&state.conn)
+            .await
+            .unwrap()
+            .unwrap(),
+    )
 }

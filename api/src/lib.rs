@@ -7,13 +7,14 @@ use std::env;
 
 #[derive(Clone)]
 struct AppState {
-    _conn: DatabaseConnection,
+    conn: DatabaseConnection,
 }
 
 #[tokio::main]
 pub async fn start() {
+
     tracing_subscriber::fmt::init();
-    dotenv::dotenv().ok();
+
     // tracing_subscriber::registry()
     //     .with(
     //         tracing_subscriber::EnvFilter::try_from_default_env()
@@ -22,7 +23,7 @@ pub async fn start() {
     //     .with(tracing_subscriber::fmt::layer())
     //     .init();
 
-
+    dotenv::dotenv().ok();
     let db_url = env::var("DATABASE_URL").expect("DATABASE_URL is not set in .env file");
     let host = env::var("HOST").expect("HOST is not set in .env file");
     let port = env::var("PORT").expect("PORT is not set in .env file");
@@ -30,9 +31,11 @@ pub async fn start() {
     let conn = Database::connect(db_url)
         .await
         .expect("Database connection failed");
-    let state = AppState { _conn: conn };
+    let state = AppState { conn };
+
     let app = api::register_api(Router::new()).with_state(state);
 
     let listener = tokio::net::TcpListener::bind(&server_url).await.unwrap();
+
     axum::serve(listener, app).await.unwrap();
 }

@@ -8,7 +8,7 @@ async fn main() {
     // let db: DatabaseConnection = Database::connect("sqlite://zyro.sqlite?mode=rwc").await.unwrap();
     // Migrator::fresh(&db).await.unwrap();
 }
-//cargo install sea-orm-cli                         //  安装 sea-orm-cli
-//sea-orm-cli migrate generate name                 //  创建迁移文件
-//sea-orm-cli migrate fresh                         //  迁移
-//sea-orm-cli generate entity -o entity/src/model   //  generate entity 命令
+//cargo install sea-orm-cli                                                 //  安装 sea-orm-cli
+//sea-orm-cli migrate generate name                                         //  创建迁移文件
+//sea-orm-cli migrate fresh                                                 //  迁移
+//sea-orm-cli generate entity --with-serde both -o entity/src/model         //  generate entity 命令

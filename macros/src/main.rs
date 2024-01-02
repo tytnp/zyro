@@ -1,6 +1,7 @@
+use crate::generate::api;
+
 mod generate;
 
 fn main() {
-    generate::api::gen_api_start()
-
+    api::gen_start()
 }
