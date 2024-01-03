@@ -38,6 +38,24 @@ Content-Type: application/json
 
 {
   "id": 5
+}
+
+### one
+POST http://localhost:8080/user_role/one
+Content-Type: application/json
+
+{
+  "user_id": 1,
+  "role_id": 2
+}
+
+### one
+POST http://localhost:8080/role/one
+Content-Type: application/json
+
+{
+  "id": 5
 
 }
+
 

@@ -1,28 +1,22 @@
 mod demo;
 mod api;
+mod model;
+
 use axum::*;
 use sea_orm::{Database, DatabaseConnection};
 use std::env;
-
 
 #[derive(Clone)]
 struct AppState {
     conn: DatabaseConnection,
 }
 
+
 #[tokio::main]
 pub async fn start() {
-
-    tracing_subscriber::fmt::init();
-
-    // tracing_subscriber::registry()
-    //     .with(
-    //         tracing_subscriber::EnvFilter::try_from_default_env()
-    //             .unwrap_or_else(|_| "example_low_level_openssl=debug".into()),
-    //     )
-    //     .with(tracing_subscriber::fmt::layer())
-    //     .init();
-
+    tracing_subscriber::fmt()
+        .with_max_level(tracing::Level::DEBUG)
+        .init();
     dotenv::dotenv().ok();
     let db_url = env::var("DATABASE_URL").expect("DATABASE_URL is not set in .env file");
     let host = env::var("HOST").expect("HOST is not set in .env file");

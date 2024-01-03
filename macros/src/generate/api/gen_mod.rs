@@ -8,7 +8,6 @@ use quote::quote;
 use crate::generate::def::{find_filed_fn, GenStructContext};
 
 pub fn gen_mod(target_path: &str, contexts: &Vec<GenStructContext>) {
-    // let mut target_content = String::new();
     let target_file = Path::new(&target_path).join("mod.rs");
     if !target_file.exists() {
         if let Some(parent) = target_file.parent() {
@@ -17,17 +16,13 @@ pub fn gen_mod(target_path: &str, contexts: &Vec<GenStructContext>) {
             }
         }
         File::create(&target_file).unwrap();
-        // target_content = fs::read_to_string(&target_file).unwrap();
-    } else {
-
-        // target_content = fs::read_to_string(&target_file).unwrap();
     }
     let mods: Vec<TokenStream> = contexts
         .iter()
         .map(|c| {
-            if !find_filed_fn(c,"created_at") {
-                return TokenStream::new()
-            }
+            // if !find_filed_fn(c,"created_at") {
+            //     return TokenStream::new()
+            // }
             let m = Ident::new(&*c.struct_name.clone().add("_api"), Span::call_site());
             quote!(
                 mod #m;
@@ -43,9 +38,9 @@ pub fn gen_mod(target_path: &str, contexts: &Vec<GenStructContext>) {
     let routes: Vec<TokenStream> = contexts
         .iter()
         .map(|c| {
-            if !find_filed_fn(c,"created_at") {
-                return TokenStream::new()
-            }
+            // if !find_filed_fn(c,"created_at") {
+            //     return TokenStream::new()
+            // }
             let m = Ident::new(&*c.struct_name.clone().add("_api"), Span::call_site());
             let add_path = format!("/{}/add", format(&c.struct_name));
             let del_path = format!("/{}/del", format(&c.struct_name));

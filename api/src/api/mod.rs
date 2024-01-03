@@ -6,7 +6,9 @@ mod sys_dictionary_api;
 mod sys_dictionary_detail_api;
 mod sys_menu_api;
 mod sys_role_api;
+
 mod sys_user_api;
+mod sys_user_role_api;
 pub fn register_api(app: Router<AppState>) -> Router<AppState> {
     app.route("/api/add", post(sys_api_api::add))
         .route("/api/del", post(sys_api_api::del))
@@ -53,4 +55,9 @@ pub fn register_api(app: Router<AppState>) -> Router<AppState> {
         .route("/user/edit", post(sys_user_api::edit))
         .route("/user/list", post(sys_user_api::list))
         .route("/user/one", post(sys_user_api::one))
+        .route("/user_role/add", post(sys_user_role_api::add))
+        .route("/user_role/del", post(sys_user_role_api::del))
+        .route("/user_role/edit", post(sys_user_role_api::edit))
+        .route("/user_role/list", post(sys_user_role_api::list))
+        .route("/user_role/one", post(sys_user_role_api::one))
 }

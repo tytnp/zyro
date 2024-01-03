@@ -11,11 +11,9 @@ use crate::generate::api::gen_list_fn::gen_list_fn;
 use crate::generate::api::gen_one_fn::gen_one_fn;
 
 pub fn gen_all_api(context: &GenStructContext) {
-    if !find_filed_fn(context,"created_at") {
-        return ()
-    }
-    // let mut source_content = String::new();
-    // let mut target_content = String::new();
+    // if !find_filed_fn(context,"created_at") {
+    //     return ()
+    // }
     if !Path::new(&context.target_path).exists() {
         if let Some(parent) = Path::new(&context.target_path).parent() {
             if !parent.exists() {
@@ -23,9 +21,6 @@ pub fn gen_all_api(context: &GenStructContext) {
             }
         }
         File::create(&context.target_path).unwrap();
-        // target_content = fs::read_to_string(&context.target_path).unwrap();
-    } else {
-        // target_content = fs::read_to_string(&context.target_path).unwrap();
     }
     let add = gen_add_fn(&context);
     let del = gen_del_fn(&context);
