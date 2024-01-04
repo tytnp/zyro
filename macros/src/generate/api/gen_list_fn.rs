@@ -1,6 +1,6 @@
 use proc_macro2::{TokenStream};
 use quote::quote;
-use crate::generate::def::GenStructContext;
+use crate::generate::models::GenStructContext;
 
 pub fn gen_list_fn(_context: &GenStructContext) -> TokenStream {
     // let m = Ident::new(&context.struct_name, Span::call_site());

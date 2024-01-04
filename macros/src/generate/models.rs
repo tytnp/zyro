@@ -14,8 +14,6 @@ pub struct GenStructContext {
     pub target_path: String,
     pub struct_name: String,
     pub fields: HashMap<Ident, Type>,
+    pub primary_keys: Vec<String>
 }
 
-pub fn find_filed_fn(c: &GenStructContext, field_name: &str) -> bool {
-    c.fields.iter().any(|(k, _)| k.to_string() == field_name)
-}

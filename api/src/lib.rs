@@ -1,6 +1,6 @@
-mod demo;
 mod api;
 mod model;
+
 
 use axum::*;
 use sea_orm::{Database, DatabaseConnection};

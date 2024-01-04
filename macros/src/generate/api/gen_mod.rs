@@ -5,7 +5,7 @@ use std::path::Path;
 use std::process::Command;
 use proc_macro2::{Ident, Span, TokenStream};
 use quote::quote;
-use crate::generate::def::{find_filed_fn, GenStructContext};
+use crate::generate::models::{ GenStructContext};
 
 pub fn gen_mod(target_path: &str, contexts: &Vec<GenStructContext>) {
     let target_file = Path::new(&target_path).join("mod.rs");
@@ -20,16 +20,12 @@ pub fn gen_mod(target_path: &str, contexts: &Vec<GenStructContext>) {
     let mods: Vec<TokenStream> = contexts
         .iter()
         .map(|c| {
-            // if !find_filed_fn(c,"created_at") {
-            //     return TokenStream::new()
-            // }
             let m = Ident::new(&*c.struct_name.clone().add("_api"), Span::call_site());
             quote!(
                 mod #m;
             )
         })
         .collect();
-
     let format = |name: &str| -> String {
         let index = name.find('_').unwrap_or_else(|| name.len());
         name[index + 1..].to_string()
@@ -38,17 +34,12 @@ pub fn gen_mod(target_path: &str, contexts: &Vec<GenStructContext>) {
     let routes: Vec<TokenStream> = contexts
         .iter()
         .map(|c| {
-            // if !find_filed_fn(c,"created_at") {
-            //     return TokenStream::new()
-            // }
             let m = Ident::new(&*c.struct_name.clone().add("_api"), Span::call_site());
             let add_path = format!("/{}/add", format(&c.struct_name));
             let del_path = format!("/{}/del", format(&c.struct_name));
             let edit_path = format!("/{}/edit", format(&c.struct_name));
             let list_path = format!("/{}/list", format(&c.struct_name));
             let one_path = format!("/{}/one", format(&c.struct_name));
-            //let c = Ident::new(format(&c.struct_name).as_str(), Span::call_site());
-            //let route_str = format!("/{}/add", format(&c.struct_name));
             quote!(
                 .route(#add_path, post(#m::add))
                 .route(#del_path, post(#m::del))
@@ -58,7 +49,6 @@ pub fn gen_mod(target_path: &str, contexts: &Vec<GenStructContext>) {
             )
         })
         .collect();
-
     let code = quote!(
         use axum::Router;
         use axum::routing::*;
