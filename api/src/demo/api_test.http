@@ -14,7 +14,7 @@ POST http://localhost:8080/role/del
 Content-Type: application/json
 
 {
-"id": 26,
+"id": 39,
 "name": "1111",
 "default_route": "1111",
 "status": false
@@ -26,10 +26,10 @@ POST http://localhost:8080/role/edit
 Content-Type: application/json
 
 {
-  "id": 27,
+  "id": 38,
   "name": "1212",
   "default_route": "2222",
-  "status": false
+  "status": true
 }
 
 ### one
@@ -37,7 +37,7 @@ POST http://localhost:8080/role/one
 Content-Type: application/json
 
 {
-  "id": 5
+  "id": 0
 }
 
 ### one
