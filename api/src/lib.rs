@@ -1,7 +1,6 @@
 mod api;
 mod model;
 
-
 use axum::*;
 use sea_orm::{Database, DatabaseConnection};
 use std::env;
@@ -10,7 +9,6 @@ use std::env;
 struct AppState {
     conn: DatabaseConnection,
 }
-
 
 #[tokio::main]
 pub async fn start() {
